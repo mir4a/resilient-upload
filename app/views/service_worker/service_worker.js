@@ -21,7 +21,24 @@ self.addEventListener('fetch', onFetch)
 // eslint-disable-next-line no-undef
 const { CacheFirst, NetworkFirst } = workbox.strategies
 // eslint-disable-next-line no-undef
-const { registerRoute } = workbox.routing
+const { registerRoute, setCatchHandler } = workbox.routing
+// eslint-disable-next-line no-undef
+const { warmStrategyCache } = workbox.recipes
+
+const strategy = new CacheFirst()
+const urls = ['/offline.html']
+// Warm the runtime cache with a list of asset URLs
+warmStrategyCache({ urls, strategy })
+// Trigger a 'catch' handler when any of the other routes fail to generate a response
+setCatchHandler(async ({ event }) => {
+  switch (event.request.destination) {
+    case 'document':
+      return strategy.handle({ event, request: urls[0] })
+    default:
+      return Response.error()
+  }
+})
+
 // If we have critical pages that won't be changing very often, it's a good idea to use cache first with them
 registerRoute(
   ({ url }) => url.pathname.startsWith('/home'),
