@@ -25,7 +25,7 @@ Things you may want to cover:
 
 # Introduction
 
-::: mermaid
+```mermaid
 flowchart TD;
   A(File uploading) --> B[Split file into chunks]
   B --> BB[/Chunk State/]
@@ -49,7 +49,7 @@ flowchart TD;
   J --> K{Success?}
   K -->|Yes| L[Delete chunks from IndexedDB]
   K -->|No| M(Show error)
-:::
+```
 
 # Kudos to
 
