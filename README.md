@@ -69,7 +69,7 @@ flowchart TD;
   J -->|request| N
   N -->|Yes| F
   N -->|No| M
-  M --> J
+  M -->|put in queue| D
   F -->|ETag| J
   E --> O
   D -->|upload id, list of ETags| O
@@ -77,6 +77,8 @@ flowchart TD;
   F -->|Url| O
   O --> Q
   Q --> R
+  Q --> P
+  P -->|cleanup| D
 
 ```
 
